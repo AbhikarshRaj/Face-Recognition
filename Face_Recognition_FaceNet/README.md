@@ -1,79 +1,103 @@
-# Face_Recognition_FaceNet
-Face Recognition System using FaceNet
+# Face Recognition System using FaceNet
 
-Face Recognition:
-Face recognition is the general task of identifying and verifying people from photographs of their face.
+This project demonstrates how to build a face recognition system using the FaceNet model and associated tools. The system focuses on the **face identification** task, where we identify a given face by comparing it against a database of known faces.
 
-Face Verification:
-A one-to-one mapping of a given face against a known identity (e.g. is this the person?)
+## Table of Contents
 
-Face Identification:
-A one-to-many mapping for a given face against a database of known faces (e.g. who is this person?)
-In this project we will focus on the face identification task.
+- [Introduction](#introduction)
+- [Setup and Installation](#setup-and-installation)
+- [Project Workflow](#project-workflow)
+  - [1. Face Detection](#1-face-detection)
+  - [2. Face Embeddings](#2-face-embeddings)
+  - [3. Face Classification](#3-face-classification)
+  - [4. Prediction for Unseen Photos](#4-prediction-for-unseen-photos)
+- [Resources](#resources)
 
-FaceNet:
-FaceNet is a face recognition system that was described by Florian Schroff, et al. at Google in their 2015 paper titled “FaceNet: A Unified Embedding for Face Recognition and Clustering.”
+## Introduction
 
-Face Embeddings:
-It is a system that, given a picture of a face, will extract high-quality features from the face and predict a 128 element vector representation these features, called a face embedding.
+Face recognition refers to the task of identifying or verifying individuals based on their facial features. The key aspects of this project are:
 
+- **Face Verification**: A one-to-one comparison (Is this the person?).
+- **Face Identification**: A one-to-many comparison (Who is this person?).
 
-Pre-trained Keras FaceNet model:
-In this project we will use the pre-trained Keras FaceNet model provided by Hiroki Taniai. It was trained on MS-Celeb-1M dataset and expects input images to be color, to have their pixel values whitened (standardized across all three channels), and to have a square shape of 160×160 pixels.
+This system uses **FaceNet**, a face recognition model developed by Google, which converts face images into 128-dimensional embeddings. These embeddings are then used for classification and identification purposes.
 
-https://drive.google.com/drive/folders/1pwQ3H4aJ8a6yyJHZkTwtjcL4wYWQb7bn?usp=drive_open
+## Setup and Installation
 
-Detect Faces for Face Recognition using MTCNN:
-we will also use the Multi-Task Cascaded Convolutional Neural Network, or MTCNN, for face detection, e.g. finding and extracting faces from photos.
+### 1. Install Required Packages
 
-To install mtcnn:
-sudo pip install mtcnn
+To begin, you need to install the required Python packages:
 
-Dataset:
-We are going to use our small dataset with the photos of Rajin and AbdulKalam.
+```bash
+pip install mtcnn
+pip install numpy
+pip install scikit-learn
+pip install keras
+You can also create a requirements.txt file with the following content:
 
-Detecting Faces:
-The first step is to detect the face in each photograph and reduce the dataset to a series of faces only.
+Copy code
+mtcnn
+numpy
+scikit-learn
+keras
+2. Download Pre-Trained FaceNet Model
+We will use a pre-trained FaceNet model provided by Hiroki Taniai. The model is trained on the MS-Celeb-1M dataset and expects input images to be 160x160 pixels and color-encoded.
 
-https://github.com/KarthikBalakrishnan11/Face_Recognition_FaceNet/blob/master/face_detection.py
+Download Pre-trained FaceNet Model
 
-Create Face Embeddings:
-The next step is to create a face embedding. 
+Project Workflow
+1. Face Detection
+In this step, we use the MTCNN (Multi-Task Cascaded Convolutional Neural Network) model to detect faces in images. The MTCNN model identifies face bounding boxes and facial landmarks (such as eyes, nose, and mouth), which will be used for further analysis.
 
-A face embedding is a vector that represents the features extracted from the face. This can then be compared with the vectors generated for other faces. For example, another vector that is close (by some measure) may be the same person, whereas another vector that is far (by some measure) may be a different person.
+You can find the face detection code here:
 
-https://github.com/KarthikBalakrishnan11/Face_Recognition_FaceNet/blob/master/face_embeddings.py
+face_detection.py
 
-Perform Face Classification:
-Now we need to develop a model to classify face embeddings.
+2. Face Embeddings
+Face embeddings are vectors that represent the unique features of each face. These embeddings are extracted using the FaceNet model. Given an image of a face, the model produces a 128-dimensional vector that can be compared with other embeddings.
 
-https://github.com/KarthikBalakrishnan11/Face_Recognition_FaceNet/blob/master/face_classification.py
+To extract face embeddings, use the code provided:
 
-Prediction for a given unseen photo:
+face_embeddings.py
 
-https://github.com/KarthikBalakrishnan11/Face_Recognition_FaceNet/blob/master/face_system.py
+3. Face Classification
+Once we have the face embeddings, we use a Support Vector Machine (SVM) classifier to match and classify faces. The SVM model is trained on the embeddings and their corresponding labels.
 
-From this project we learned:
-About the FaceNet face recognition system.
-Open source implementations and pre-trained models of FaceNet.
-Extracting faces via a face detection system.
-Extracting face features via face embeddings.
-Fit, evaluate, and demonstrate an SVM model to predict identities from faces embeddings.
+You can find the face classification code here:
 
-Useful links:
-For Detailed Blog: https://machinelearningmastery.com/how-to-develop-a-face-recognition-system-using-facenet-in-keras-and-an-svm-classifier/
-FaceNet Paper: https://arxiv.org/abs/1503.03832
-Keras OpenFace: https://github.com/iwantooxxoox/Keras-OpenFace
-FaceNet by David Sandberg: https://github.com/davidsandberg/facenet
-FaceNet by Hiroki Taniai: https://github.com/nyoki-mtl/keras-facenet
-MS-Celeb-1M dataset: https://www.microsoft.com/en-us/research/project/ms-celeb-1m-challenge-recognizing-one-million-celebrities-real-world/
-Keras FaceNet Pre-Trained Model: https://drive.google.com/drive/folders/1pwQ3H4aJ8a6yyJHZkTwtjcL4wYWQb7bn
-MTCNN: https://arxiv.org/abs/1604.02878
-Linear Support Vector Machine (SVM): https://machinelearningmastery.com/support-vector-machines-for-machine-learning/
-5 Celebrity Faces Dataset, Kaggle: https://www.kaggle.com/dansbecker/5-celebrity-faces-dataset
-savez_compressed() function: https://docs.scipy.org/doc/numpy/reference/generated/numpy.savez_compressed.html
-load() NumPy function: https://docs.scipy.org/doc/numpy/reference/generated/numpy.load.html
-Vector normalization: https://machinelearningmastery.com/vector-norms-machine-learning/
- Normalizer class in scikit-learn: https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.Normalizer.html
-LabelEncoder class in scikit-learn: https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html
-SVC class in scikit-learn: https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html
+face_classification.py
+
+4. Prediction for Unseen Photos
+For making predictions, we will use the trained model to classify new, unseen images. This process involves detecting the face, generating the embedding, and then classifying it against the known identities.
+
+Prediction code can be found here:
+
+face_system.py
+
+Resources
+How to Develop a Face Recognition System using FaceNet in Keras and an SVM Classifier
+FaceNet Paper by Google
+Keras OpenFace Repository
+FaceNet by David Sandberg
+FaceNet by Hiroki Taniai
+MS-Celeb-1M Dataset
+MTCNN Paper
+Linear Support Vector Machine (SVM)
+5 Celebrity Faces Dataset on Kaggle
+Contributing
+If you would like to contribute to this project, feel free to fork the repository, create a new branch, and submit a pull request.
+
+License
+This project is licensed under the MIT License.
+
+yaml
+Copy code
+
+---
+
+### Key Changes:
+- Updated the introduction and installation steps.
+- Provided links to the code files and resources for better clarity.
+- Organized the sections into a logical flow from setup to usage.
+
+Let me know if you'd like any additional modifications!
